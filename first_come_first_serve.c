@@ -1,51 +1,54 @@
 #include<stdio.h>
-
-int main ()
+#include<string.h>
+int main()
 {
-  int n;
-  int w_t = 0;
-  int total = 0;
-  int average = 0;
-  printf ("Enter the number of processes:\t");
-  scanf ("%d", &n);
-  int array[n];
-  int i;
-  int j;
-  int temp;
-  for (i = 0; i < n; i++)
+    char pn[10][10],t[10];
+    int arr[10],bur[10],star[10],finish[10],tat[10],wt[10],i,j,n,temp;
+    int totwt=0,tottat=0;
+    printf("Enter the number of processes:");
+    scanf("%d",&n);
+    for(i=0; i<n; i++)
     {
-      printf ("\n\nEnter the burst time for the %d process:\t", i + 1);
-      scanf ("%d", &array[i]);
-
+        printf("Enter the ProcessName, Arrival Time& Burst Time:");
+        scanf("%s%d%d",&pn[i],&arr[i],&bur[i]);
     }
-  for (i = 0; i < n; i++)
+    for(i=0; i<n; i++)
     {
-      printf ("\n\nBurst time for the %d process:\t%d\n", i + 1, array[i]);
+        for(j=0; j<n; j++)
+        {
+            if(arr[i]<arr[j])
+            {
+                temp=arr[i];
+                arr[i]=arr[j];
+                arr[j]=temp;
+                temp=bur[i];
+                bur[i]=bur[j];
+                bur[j]=temp;
+                strcpy(t,pn[i]);
+                strcpy(pn[i],pn[j]);
+                strcpy(pn[j],t);
+            }
 
+        }
     }
-
-
-  printf ("\nWait time for the process:\t%d\n", w_t);
-  for (i = 0; i < n - 1; i++)
+    for(i=0; i<n; i++)
     {
-      w_t = array[i] + w_t;
-      printf ("\nWait time for the next process:\t%d\n\n\n", w_t);
-      total = total + w_t;
+        if(i==0)
+            star[i]=arr[i];
+        else
+            star[i]=finish[i-1];
+        wt[i]=star[i]-arr[i];
+        finish[i]=star[i]+bur[i];
+        tat[i]=finish[i]-arr[i];
     }
-    
-  for (i = 0; i < n; i++)
+    printf("\nPName Arrtime Burtime WaitTime Start TAT Finish");
+    for(i=0; i<n; i++)
     {
-      printf ("-\t");
-      for (j = 0; j < total; j++)
-	{
-	  printf ("|\t");
-	}
+        printf("\n%s\t%3d\t%3d\t%3d\t%3d\t%6d\t%6d",pn[i],arr[i],bur[i],wt[i],star[i],tat[i],finish[i]);
+        totwt+=wt[i];
+        tottat+=tat[i];
     }
-  average = total / n;
-  printf ("\n\nAverage time:\t%d\n", average);
-
-
-
-
-  return 0;
+    printf("\nAverage Waiting time:%f",(float)totwt/n);
+    printf("\nAverage Turn Around Time:%f",(float)tottat/n);
+    return 0;
 }
