@@ -1,68 +1,53 @@
 #include<stdio.h>
-#include<conio.h>
-
-void main()
+ 
+int main()
 {
-	// initlialize the variable name
-	int i, NOP, sum=0,count=0, y, quant, wt=0, tat=0, at[10], bt[10], temp[10];
-	float avg_wt, avg_tat;
-	printf(" Total number of process in the system: ");
-	scanf("%d", &NOP);
-	y = NOP; // Assign the number of process to variable y
-
-// Use for loop to enter the details of the process like Arrival time and the Burst Time
-for(i=0; i<NOP; i++)
-{
-printf("\n Enter the Arrival and Burst time of the Process[%d]\n", i+1);
-printf(" Arrival time is: \t");  // Accept arrival time
-scanf("%d", &at[i]);
-printf(" \nBurst time is: \t"); // Accept the Burst time
-scanf("%d", &bt[i]);
-temp[i] = bt[i]; // store the burst time in temp array
-}
-// Accept the Time qunat
-printf("Enter the Time Quantum for the process: \t");
-scanf("%d", &quant);
-// Display the process No, burst time, Turn Around Time and the waiting time
-printf("\n Process No \t\t Burst Time \t\t TAT \t\t Waiting Time ");
-for(sum=0, i = 0; y!=0; )
-{
-if(temp[i] <= quant && temp[i] > 0) // define the conditions 
-{
-	sum = sum + temp[i];
-	temp[i] = 0;
-	count=1;
-	}	
-	else if(temp[i] > 0)
-	{
-		temp[i] = temp[i] - quant;
-		sum = sum + quant;	
-	}
-	if(temp[i]==0 && count==1)
-	{
-		y--; //decrement the process no.
-		printf("\nProcess No[%d] \t\t %d\t\t\t\t %d\t\t\t %d", i+1, bt[i], sum-at[i], sum-at[i]-bt[i]);
-		wt = wt+sum-at[i]-bt[i];
-		tat = tat+sum-at[i];
-		count =0;	
-	}
-	if(i==NOP-1)
-	{
-		i=0;
-	}
-	else if(at[i+1]<=sum)
-	{
-		i++;
-	}
-	else
-	{
-		i=0;
-	}
-}
-// represents the average waiting time and Turn Around time
-avg_wt = wt * 1.0/NOP;
-avg_tat = tat * 1.0/NOP;
-printf("\n Average Turn Around Time: \t%f", avg_wt);
-printf("\n Average Waiting Time: \t%f", avg_tat);
-getch();
+ 
+  int count,j,n,time,remain,flag=0,time_quantum;
+  int wait_time=0,turnaround_time=0,at[10],bt[10],rt[10];
+  printf("Enter Total Process:\t ");
+  scanf("%d",&n);
+  remain=n;
+  for(count=0;count<n;count++)
+  {
+    printf("Enter Arrival Time and Burst Time for Process Process Number %d :",count+1);
+    scanf("%d",&at[count]);
+    scanf("%d",&bt[count]);
+    rt[count]=bt[count];
+  }
+  printf("Enter Time Quantum:\t");
+  scanf("%d",&time_quantum);
+  printf("\n\nProcess\t|Turnaround Time|Waiting Time\n\n");
+  for(time=0,count=0;remain!=0;)
+  {
+    if(rt[count]<=time_quantum && rt[count]>0)
+    {
+      time+=rt[count];
+      rt[count]=0;
+      flag=1;
+    }
+    else if(rt[count]>0)
+    {
+      rt[count]-=time_quantum;
+      time+=time_quantum;
+    }
+    if(rt[count]==0 && flag==1)
+    {
+      remain--;
+      printf("P[%d]\t|\t%d\t|\t%d\n",count+1,time-at[count],time-at[count]-bt[count]);
+      wait_time+=time-at[count]-bt[count];
+      turnaround_time+=time-at[count];
+      flag=0;
+    }
+    if(count==n-1)
+      count=0;
+    else if(at[count+1]<=time)
+      count++;
+    else
+      count=0;
+  }
+  printf("\nAverage Waiting Time= %f\n",wait_time*1.0/n);
+  printf("Avg Turnaround Time = %f",turnaround_time*1.0/n);
+  
+  return 0;
 }

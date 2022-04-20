@@ -1,71 +1,42 @@
-#include<stdio.h>
- 
-int main()
+#include <stdio.h>
+int main() 
 {
-    int bt[20],p[20],wt[20],tat[20],pr[20],i,j,n,total=0,pos,temp,avg_wt,avg_tat;
-    printf("Enter Total Number of Process:");
-    scanf("%d",&n);
+ int a[10],b[10],x[10],i,j,smallest,count=0,time,n;
+ double avg=0,tt=0,end;
+  printf("enter the number of Processes:\t");
+  scanf("%d",&n); 
+ printf("enter arrival time\n");
+ for(i=0;i<n;i++){
+ 	 scanf("%d",&a[i]);
+ }
+ printf("enter burst time\n");
+ for(i=0;i<n;i++){
+ 	scanf("%d",&b[i]); 
+ }
  
-    printf("\nEnter Burst Time and Priority\n");
-    for(i=0;i<n;i++)
-    {
-        printf("\nP[%d]\n",i+1);
-        printf("Burst Time:");
-        scanf("%d",&bt[i]);
-        printf("Priority:");
-        scanf("%d",&pr[i]);
-        p[i]=i+1;           //contains process number
-    }
- 
-    //sorting burst time, priority and process number in ascending order using selection sort
-    for(i=0;i<n;i++)
-    {
-        pos=i;
-        for(j=i+1;j<n;j++)
-        {
-            if(pr[j]<pr[pos])
-                pos=j;
-        }
- 
-        temp=pr[i];
-        pr[i]=pr[pos];
-        pr[pos]=temp;
- 
-        temp=bt[i];
-        bt[i]=bt[pos];
-        bt[pos]=temp;
- 
-        temp=p[i];
-        p[i]=p[pos];
-        p[pos]=temp;
-    }
- 
-    wt[0]=0;	//waiting time for first process is zero
- 
-    //calculate waiting time
-    for(i=1;i<n;i++)
-    {
-        wt[i]=0;
-        for(j=0;j<i;j++)
-            wt[i]+=bt[j];
- 
-        total+=wt[i];
-    }
- 
-    avg_wt=total/n;      //average waiting time
-    total=0;
- 
-    printf("\nProcess\t    Burst Time    \tWaiting Time\tTurnaround Time");
-    for(i=0;i<n;i++)
-    {
-        tat[i]=bt[i]+wt[i];     //calculate turnaround time
-        total+=tat[i];
-        printf("\nP[%d]\t\t  %d\t\t    %d\t\t\t%d",p[i],bt[i],wt[i],tat[i]);
-    }
- 
-    avg_tat=total/n;     //average turnaround time
-    printf("\n\nAverage Waiting Time=%d",avg_wt);
-    printf("\nAverage Turnaround Time=%d\n",avg_tat);
- 
-	return 0;
+ for(i=0;i<n;i++)
+ x[i]=b[i];
+
+  b[9]=9999;
+  
+ for(time=0;count!=n;time++)
+ {
+   smallest=9;
+  for(i=0;i<n;i++)
+  {
+   if(a[i]<=time && b[i]<b[smallest] && b[i]>0 )
+   smallest=i;
+  }
+  b[smallest]--;
+  if(b[smallest]==0)
+  {
+   count++;
+   end=time+1;
+   avg=avg+end-a[smallest]-x[smallest];
+   tt= tt+end-a[smallest];
+  }
+ }
+ printf("\n\nAverage waiting time = %lf\n",avg/n);
+ printf("Average Turnaround time = %lf",tt/n);
+    return 0;
 }
