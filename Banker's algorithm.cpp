@@ -141,8 +141,7 @@ int process, request[number_of_resources];
       	for (k = 0; k < number_of_resources; k++)
 	{
 	  	fflush (stdin);
-	 	printf ("Enter number of resource %c requested by process %d: ",
-		resource, process+1);
+	 	printf ("Enter number of resource %c requested by process %d: ",resource, process+1);
 	  	scanf ("%d", &request[k]);
 	  	resource++;
 	}
