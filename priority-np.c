@@ -1,5 +1,4 @@
 #include<stdio.h>
-
 int main()
 {
     int burst_time[20],p[20],wt[20],tat[20],pr[20],i,j,n,pos,temp;
