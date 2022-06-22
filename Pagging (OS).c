@@ -31,6 +31,7 @@ int main(){
     int offSetBits = 2;
     int noOfPages = pow(2,(pageSize - offSetBits));
     int noOfFrames = pow(2,(noOfBits-offSetBits));
+    int i,j;
     //Main Memory
     char mm[8][4] = {{'-','-','-','-'},{'i','j','k','l'},{'m','n','o','p'},{'-','-','-','-'},{'-','-','-','-'},{'a','b','c','d'},{'e','f','g','h'},{'-','-','-','-'}};
     char pages[noOfPages][pageSize];
@@ -38,8 +39,8 @@ int main(){
 
     //fill pages
     char c = 'a';
-    for(int i = 0; i < noOfPages; i++){
-        for(int j = 0; j < pageSize; j++){
+    for(i = 0; i < noOfPages; i++){
+        for(j = 0; j < pageSize; j++){
           pages[i][j] = c;
           c++;
         }
@@ -56,13 +57,13 @@ int main(){
     scanf("%1d%1d%1d%1d%1d",&inbin[0],&inbin[1],&inbin[2],&inbin[3],&inbin[4]);
 
     //separating page bits from offset bits
-    for(int i = 0; i < pageNoBits; i++){
+    for(i = 0; i < pageNoBits; i++){
         pg = pg*10 + inbin[i];
     }
     int decPG = convertBin(pg);
 
     //offset bits
-    for(int i = pageNoBits; i < noOfBits; i++){
+    for( i = pageNoBits; i < noOfBits; i++){
         os = os*10 + inbin[i];
     }
 
