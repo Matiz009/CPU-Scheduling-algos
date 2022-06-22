@@ -1,59 +1,49 @@
 #include<stdio.h>
-#include<string.h>
-#define size 10
+int main()
+{
+    int AT[10],BT[10],WT[10],TT[10],n,i;
+    int burst=0,cmpl_T;
+    float Avg_WT,Avg_TT,Total=0;
+    printf("Enter number of the process\n");
+    scanf("%d",&n);
+    printf("Enter Arrival time and Burst time of the process\n");
+    printf("AT\tBT\n");
+    for(i=0;i<n;i++)
+    {
+        scanf("%d%d",&AT[i],&BT[i]);
+    }
 
-int main(){
-            char processName[size][size],t[size];
-            int arrival_time[size];
-            int burst_time[size];
-            int start_time[size];
-            int end_time[size];
-            int waiting_time[size];
-            int i,j,n,temp;
-            int total;
-            printf("Enter the number of processes:\t");
-            scanf("%d",&n);
+    // Logic for calculating Waiting time
+    for(i=0;i<n;i++)
+    {
+        if(i==0)
+            WT[i]=AT[i];
+        else
+            WT[i]=burst-AT[i];
+        burst+=BT[i];
+        Total+=WT[i];
+    }
+    Avg_WT=Total/n;
 
-                for(i=0;i<n;i++){
-                    printf("Enter the process Name, arrival time and burst time of process %d:\t",i+1);
-                    scanf("%s%d%d",processName[i],&arrival_time[i],&burst_time[i]);
-                }
-                for(i=0;i<n;i++){
-                    for(j=0;j<n;j++){
-                        if(arrival_time[i]<arrival_time[j]){
-                            temp=arrival_time[i];
-                            arrival_time[i]=arrival_time[j];
-                            arrival_time[j]=temp;
-                            temp=burst_time[i];
-                            burst_time[i]=burst_time[j];
-                            burst_time[j]=temp;
-                            strcpy(t,processName[i]);
-                            strcpy(processName[i],processName[j]);
-                            strcpy(processName[j],t);
-                        }
-                    }
-                }
+    // Logic for calculating Turn around time
+    cmpl_T=0;
+    Total=0;
+    for(i=0;i<n;i++)
+    {
+        cmpl_T+=BT[i];
+        TT[i]=cmpl_T-AT[i];
+        Total+=TT[i];
+    }
+    Avg_TT=Total/n;
 
-                    for(i=0;i<n;i++){
-                        if(i==0)
-                            start_time[i]=arrival_time[i];
-                        else
-                                start_time[i]=end_time[i-1];
-                                waiting_time[i]=start_time[i]-arrival_time[i];
-                                end_time[i]=start_time[i]+burst_time[i];
+    // printing of outputs
 
-                    }
-
-                    printf("\nProcess || Arrival || Burst || Waiting || Start || Finish");
-
-                    for(i=0;i<n;i++){
-                        printf("\n%s\t\t%d\t%d\t%d\t%d\t%d",processName[i],arrival_time[i],burst_time[i],waiting_time[i],start_time[i],end_time[i]);
-                        total+=waiting_time[i];
-                    }
-
-                    printf("\nAverage waiting time:%f\n",(float)total/n);
-
-
-
-return 0;
+    printf("Process ,Waiting_time ,TurnA_time\n");
+    for(i=0;i<n;i++)
+    {
+        printf("%d\t\t%d\t\t%d\n",i+1,WT[i],TT[i]);
+    }
+    printf("Average waiting time is : %f\n",Avg_WT);
+    printf("Average turn around time is : %f\n",Avg_TT);
+    return 0;
 }
