@@ -1,42 +1,81 @@
-#include <stdio.h>
-int main() 
-{
- int a[10],b[10],x[10],i,j,smallest,count=0,time,n;
- double avg=0,tt=0,end;
-  printf("enter the number of Processes:\t");
-  scanf("%d",&n); 
- printf("enter arrival time\n");
- for(i=0;i<n;i++){
- 	 scanf("%d",&a[i]);
- }
- printf("enter burst time\n");
- for(i=0;i<n;i++){
- 	scanf("%d",&b[i]); 
- }
- 
- for(i=0;i<n;i++)
- x[i]=b[i];
+#include<stdio.h>
 
-  b[9]=9999;
-  
- for(time=0;count!=n;time++)
+int main()
+
+{
+
+ int at[10],bt[10],rt[10],endTime,i,smallest;
+
+ int remain=0,n,time,sum_wait=0,sum_turnaround=0;
+
+ printf("Enter no of Processes : ");
+
+ scanf("%d",&n);
+
+ for(i=0;i<n;i++)
+
  {
-   smallest=9;
-  for(i=0;i<n;i++)
-  {
-   if(a[i]<=time && b[i]<b[smallest] && b[i]>0 )
-   smallest=i;
-  }
-  b[smallest]--;
-  if(b[smallest]==0)
-  {
-   count++;
-   end=time+1;
-   avg=avg+end-a[smallest]-x[smallest];
-   tt= tt+end-a[smallest];
-  }
+
+ printf("Enter arrival time for Process P%d : ",i+1);
+
+ scanf("%d",&at[i]);
+
+ printf("Enter burst time for Process P%d : ",i+1);
+
+ scanf("%d",&bt[i]);
+
+ rt[i]=bt[i];
+
  }
- printf("\n\nAverage waiting time = %lf\n",avg/n);
- printf("Average Turnaround time = %lf",tt/n);
-    return 0;
+
+ printf("\n\nProcess\t|Turnaround Time| Waiting Time\n\n");
+
+ rt[9]=9999;
+
+ for(time=0;remain!=n;time++)
+
+ {
+
+ smallest=9;
+
+ for(i=0;i<n;i++)
+
+ {
+
+ if(at[i]<=time && rt[i]<rt[smallest] && rt[i]>0)
+
+ {
+
+ smallest=i;
+
+ }
+
+ }
+
+ rt[smallest]--;
+
+ if(rt[smallest]==0)
+
+ {
+
+ remain++;
+
+ endTime=time+1;
+
+ printf("\nP[%d]\t|\t%d\t|\t%d",smallest+1,endTime-at[smallest],endTime-bt[smallest]-at[smallest]);
+
+ sum_wait+=endTime-bt[smallest]-at[smallest];
+
+ sum_turnaround+=endTime-at[smallest];
+
+ }
+
+ }
+
+ printf("\n\nAverage waiting time = %f\n",sum_wait*1.0/n);
+
+ printf("Average Turnaround time = %f",sum_turnaround*1.0/5);
+
+ return 0;
+
 }
